@@ -53,7 +53,7 @@ class Command(BaseCommand):
                 ],
                 state_director_main: [
                     MessageHandler(Filters.regex('^(' + "➕Add product" + ')$'), command_admin_add_product),
-                    MessageHandler(Filters.regex('^(' + "➕Add admin" + ')$'), command_admin_add_admin),
+                    MessageHandler(Filters.regex('^(' + "➕Add admin" + ')$'), command_admin_add_product),
                 ],
                 state_product_name:[
                     MessageHandler(Filters.text, command_product_name)
