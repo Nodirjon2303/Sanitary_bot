@@ -109,7 +109,7 @@ def command_user_muddat(update, context):
                         f"Jami: <b>{i.sold_price * (1 - (i.sold_discout / 100)) * i.quantity}</b>\n" \
                         f"Sanasi: <b>{i.sold_date}</b>"
                 try:
-                    query.message.reply_photo(photo=open(f"Images/{i.product.id}.jpg"), caption=xabar,
+                    query.message.reply_photo(photo=open(f"{i.product.imageURL}"), caption=xabar,
                                               parse_mode="HTML")
                 except:
                     query.message.reply_html(xabar)
@@ -131,7 +131,7 @@ def command_user_muddat(update, context):
                         f"Jami: <b>{i.sold_price * (1 - (i.sold_discout / 100)) * i.quantity}</b>\n" \
                         f"Sanasi: <b>{i.sold_date}</b>"
                 try:
-                    query.message.reply_photo(photo=open(f"Images/{i.product.id}.jpg"), caption=xabar,
+                    query.message.reply_photo(photo=open(f"{i.product.imageURL}"), caption=xabar,
                                               parse_mode="HTML")
                 except:
                     query.message.reply_html(xabar)
@@ -154,7 +154,7 @@ def command_user_muddat(update, context):
                         f"Jami: <b>{i.sold_price * (1 - (i.sold_discout / 100)) * i.quantity}</b>\n" \
                         f"Sanasi: <b>{i.sold_date}</b>"
                 try:
-                    query.message.reply_photo(photo=open(f"Images/{i.product.id}.jpg"), caption=xabar,
+                    query.message.reply_photo(photo=open(f"{i.product.imageURL}"), caption=xabar,
                                               parse_mode="HTML")
                 except:
                     query.message.reply_html(xabar)
@@ -177,7 +177,7 @@ def command_user_muddat(update, context):
                         f"Jami: <b>{i.sold_price * (1 - (i.sold_discout / 100)) * i.quantity}</b>\n" \
                         f"Sanasi: <b>{i.sold_date}</b>"
                 try:
-                    query.message.reply_photo(photo=open(f"Images/{i.product.id}.jpg"), caption=xabar,
+                    query.message.reply_photo(photo=open(f"{i.product.imageURL}"), caption=xabar,
                                               parse_mode="HTML")
                 except:
                     query.message.reply_html(xabar)
@@ -210,7 +210,7 @@ def command_info(update, context):
             f"Masul shaxs ismi: <b>{profile.full_name}</b>\n" \
             f"Masul shaxs tel raqami: <b>{profile.phone}</b>"
     try:
-        update.message.reply_photo(photo=open("Images/company.jpg"), caption=xabar, parse_mode='HTML')
+        update.message.reply_photo(photo=open(f"{company.imageURL}"), caption=xabar, parse_mode='HTML')
     except:
         update.message.reply_html(xabar)
     return state_user_main
@@ -285,7 +285,7 @@ def command_user_product(update, context):
             print(product.name, product.quantity, product.price, product.discount)
             try:
 
-                query.message.reply_html(photo=open(f'Images/{product.id}.jpg'),
+                query.message.reply_html(photo=open(f'{product.imageURL}'),
                                          caption=f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%",
                                          reply_markup=order_button(id))
                 query.message.delete()

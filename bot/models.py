@@ -9,6 +9,12 @@ class Company(models.Model):
     director_name = models.CharField(max_length=125, null=True, blank=True)
     director_number = models.CharField(max_length=55, null=True, blank=True)
 
+    @property
+    def imageURL(self):
+        try:
+            return self.image.url
+        except:
+            return ''
 
     def __str__(self):
         return f"{self.company_name}    {self.director_name}"
@@ -28,9 +34,17 @@ class Profile(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=125, null=True, blank=True)
+    image = models.ImageField(upload_to='image')
     quantity = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
+    @property
+    def imageURL(self):
+        try:
+            return self.image.url
+        except:
+            return ''
+
 
     def __str__(self):
         return f"{self.name} {self.quantity}"
