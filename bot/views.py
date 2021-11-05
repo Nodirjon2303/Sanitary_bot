@@ -109,8 +109,8 @@ def command_user_muddat(update, context):
                         f"Jami: <b>{i.sold_price * (1 - (i.sold_discout / 100)) * i.quantity}</b>\n" \
                         f"Sanasi: <b>{i.sold_date}</b>"
                 try:
-                    print(i.product.imageURL)
-                    query.message.reply_photo(photo=open(f"{i.product.imageURL}", 'rb'), caption=xabar,
+                    print(i.product.imageURL[1:])
+                    query.message.reply_photo(photo=open(f"{i.product.imageURL[1:]}", 'rb'), caption=xabar,
                                               parse_mode="HTML")
                 except:
                     query.message.reply_html(xabar)
