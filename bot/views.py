@@ -284,13 +284,12 @@ def command_user_product(update, context):
             product = Product.objects.get(id=id)
             print(product.name, product.quantity, product.price, product.discount)
             try:
-
                 query.message.reply_html(photo=open(f'{product.imageURL}'),
                                          caption=f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%",
                                          reply_markup=order_button(id))
                 query.message.delete()
             except:
-                query.edit_message_text(text=f"Nomi:product.name\n"
+                query.message.reply_html(text=f"Nomi:product.name\n"
                                              f"miqdori: {product.quantity}\n"
                                              f"Narxi: {product.price}\n"
                                              f"Chegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%",
