@@ -78,7 +78,7 @@ DATABASES = {
         'NAME': 'myproject',
         'USER': 'algoritm',
         'PASSWORD': 'Nodir2303',
-        'HOST': 'locahost',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
