@@ -5,14 +5,9 @@ import math
 
 state_user_name = 1
 state_user_main = 2
-state_director_main = 3
 state_user_contact = 4
 state_user_savatcha = 5
 state_user_muddat = 6
-state_product_name = 7
-state_product_price = 8
-state_product_discount=9
-state_product_quantity = 10
 
 
 def start(update, context):
@@ -25,50 +20,9 @@ def start(update, context):
                                   f"Botimizga xush kelibsiz! \nBotdan to'liq foydalanish uchun Ism familyangizni to'liq yozib yuboring:")
         return state_user_name
     else:
-        company = Company.objects.all()[:1].get()
-        if profile.status == 'director':
-            update.message.reply_html(f"Assalomu alaykum\n"
-                                      f"Botimizga xush kelibsiz {company.company_name} Kompaniyasi direktori",
-                                      reply_markup=director_main_button())
-            return state_director_main
-        else:
-            update.message.reply_html("Botimizga xush kelibsiz.\n"
-                                      "Quyidagi buyruqlardan birini tanlang👇👇", reply_markup=main_button())
-            return state_user_main
-
-
-def command_admin_add_product(update, context):
-    update.message.reply_html("Mahsulot nomini yuboring", reply_markup=ReplyKeyboardRemove())
-    return state_product_name
-
-def command_product_name(update, context):
-    name = update.message.text
-    context.user_data['product_name'] = name
-    update.message.reply_html("Mahsulot narxini kiriting:")
-    return state_product_price
-
-def command_product_price(update, context):
-    narxi = update.message.text
-    try:
-        narxi = int(narxi)
-        context.user_data['product_price'] = narxi
-        update.message.reply_text("Mahsulot skidka foizini kiriting aks holda 0:")
-        return state_product_discount
-    except:
-        update.message.reply_html("qayta kiriting")
-        return state_product_price
-def command_product_discount(update, context):
-    discount = update.message.text
-    try:
-        discount = int(discount)
-        context.user_data['product_discount'] = discount
-        update.message.reply_text("Mahsulot quantitysinni kiriting:")
-        return state_product_quantity
-    except:
-        update.message.reply_html("qayta kiriting")
-        return state_product_discount
-
-
+        update.message.reply_html("Botimizga xush kelibsiz.\n"
+                                  "Quyidagi buyruqlardan birini tanlang👇👇", reply_markup=main_button())
+        return state_user_main
 
 
 def command_user_name(update, context):

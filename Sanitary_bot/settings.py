@@ -82,6 +82,13 @@ DATABASES = {
     }
 }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -124,3 +131,4 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 TOKEN = '2025347660:AAEnBH8o-SqFGKxrAGANMvlXjfMHQfn77fs'
+# TOKEN = '2030913521:AAFV3f3hTNfVuNYTq8xxy-F3uVq3LBov8Qc'

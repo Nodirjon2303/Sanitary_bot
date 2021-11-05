@@ -50,21 +50,7 @@ class Command(BaseCommand):
                 ],
                 state_user_muddat:[
                     CallbackQueryHandler(command_user_muddat)
-                ],
-                state_director_main: [
-                    MessageHandler(Filters.regex('^(' + "➕Add product" + ')$'), command_admin_add_product),
-                    MessageHandler(Filters.regex('^(' + "➕Add admin" + ')$'), command_admin_add_product),
-                ],
-                state_product_name:[
-                    MessageHandler(Filters.text, command_product_name)
-                ],
-                state_product_price:[
-                    MessageHandler(Filters.text, command_product_price)
-                ],
-                state_product_discount:[
-                    MessageHandler(Filters.text, command_product_discount)
                 ]
-
             },
             fallbacks=[
                 CommandHandler('start', start)
