@@ -283,14 +283,13 @@ def command_user_product(update, context):
             id = int(id)
             product = Product.objects.get(id=id)
             print(product.name, product.quantity, product.price, product.discount)
-            xabar = f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%"
             try:
 
-                query.message.reply_html(photo=open(f'Images/{product.id}.jpg'), caption=xabar,
+                query.message.reply_html(photo=open(f'Images/{product.id}.jpg'), caption=f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%",
                                          reply_markup=order_button(id))
                 query.message.delete()
             except:
-                query.edit_message_text(text=xabar, reply_markup=order_button(id))
+                query.edit_message_text(text=f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%", reply_markup=order_button(id))
 
         elif data == 'order':
             id = int(id)
