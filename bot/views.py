@@ -289,7 +289,7 @@ def command_user_product(update, context):
                                          reply_markup=order_button(id))
                 query.message.delete()
             except:
-                query.message.reply_html(text=f"Nomi:product.name\n"
+                query.message.reply_html(f"Nomi:{product.name}\n"
                                              f"miqdori: {product.quantity}\n"
                                              f"Narxi: {product.price}\n"
                                              f"Chegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%",
