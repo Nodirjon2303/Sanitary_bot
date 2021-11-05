@@ -282,13 +282,8 @@ def command_user_product(update, context):
         if data == 'product':
             id = int(id)
             product = Product.objects.get(id=id)
-            try:
-                xabar = f"Nomi:{product.name}\n" \
-                        f"miqdori: {product.quantity}\n" \
-                        f"Narxi: {product.price}\n" \
-                        f"Chegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%chegirma"
-            except:
-                xabar = "error"
+            print(product.name, product.quantity, product.price, product.discount)
+            xabar = f"Nomi:{product.name}\nmiqdori: {product.quantity}\nNarxi: {product.price}\nChegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%"
             try:
 
                 query.message.reply_html(photo=open(f'Images/{product.id}.jpg'), caption=xabar,
