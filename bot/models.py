@@ -10,6 +10,9 @@ class Company(models.Model):
     director_number = models.CharField(max_length=55, null=True, blank=True)
 
 
+    def __str__(self):
+        return f"{self.company_name}    {self.director_name}"
+
 class Profile(models.Model):
     full_name = models.CharField(max_length=125, null=True, blank=True)
     first_name = models.CharField(max_length=123, null=True, blank=True)
@@ -20,12 +23,17 @@ class Profile(models.Model):
     discout = models.IntegerField(null=True, blank=True)
     status = models.CharField(max_length=55, null=True, default='user')
 
+    def __str__(self):
+        return self.full_name
 
 class Product(models.Model):
     name = models.CharField(max_length=125, null=True, blank=True)
     quantity = models.IntegerField(null=True, blank=True)
     price = models.IntegerField(null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} {self.quantity}"
 
 
 class Savatcha(models.Model):
@@ -36,6 +44,10 @@ class Savatcha(models.Model):
     status = models.CharField(max_length=55, null=True, default='progress')
     sold_date = models.DateField(auto_now_add=True)
     sold_discout = models.IntegerField(null=True, blank=True, default=0)
+
+
+    def __str__(self):
+        return f"{self.profile.full_name}   {self.product.name}"
 
     @property
     def set_defaults(self):
