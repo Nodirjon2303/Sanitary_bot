@@ -285,7 +285,7 @@ def command_user_product(update, context):
             xabar = f"Nomi:{product.name}\n" \
                     f"miqdori: {product.quantity}\n" \
                     f"Narxi: {product.price}\n" \
-                    f"Chegirma:{100 - ((100 - product.discount) * (100 - profile.discout) / 100)}%chegirma"
+                    f"Chegirma:{100 - ((100 - int(product.discount)) * (100 - int(profile.discout)) / 100)}%chegirma"
             try:
 
                 query.message.reply_html(photo=open(f'Images/{product.id}.jpg'), caption=xabar,
