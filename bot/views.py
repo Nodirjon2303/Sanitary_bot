@@ -47,11 +47,10 @@ def command_user_contact(update, context):
 
 
 def command_user_addorder(update, context):
-    update.message.reply_html("Qaysi kategoriya bo'yicha mahsulot sotib olmoqchisiz👇👇")
     categories = Category.objects.all()
     maxpage = context.user_data['maxpage'] = math.ceil(len(categories) / 10)
     if maxpage == 0:
-        context.bot.answer_callback_query(text="Hozircha mahsulotlar qo'shilmagan", callback_query_id=query.id,
+        context.bot.answer_callback_query(text="Hozircha categoriyalar qo'shilmagan", callback_query_id=query.id,
                                           show_alert=True)
         return state_user_main
     context.user_data['page'] = 1
@@ -365,7 +364,6 @@ def command_user_product(update, context):
             id = int(id)
             context.user_data['category'] = id
             category = Category.objects.get(id=id)
-            query.message.reply_html("Buyurtma berish uchun quyidagi mahsulotlardan birini tanlang")
             products = Product.objects.filter(category=category, quantity__gte=1)
             maxpage = context.user_data['maxpage'] = math.ceil(len(products) / 10)
             if maxpage == 0:
