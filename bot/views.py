@@ -47,18 +47,17 @@ def command_user_contact(update, context):
 
 
 def command_user_addorder(update, context):
-    update.message.reply_html("Buyurtma berish uchun quyidagi mahsulotlardan birini tanlang")
-    products = Product.objects.all()
-    maxpage = context.user_data['maxpage'] = math.ceil(len(products) / 10)
+    update.message.reply_html("Qaysi kategoriya bo'yicha mahsulot sotib olmoqchisiz👇👇")
+    categories = Category.objects.all()
+    maxpage = context.user_data['maxpage'] = math.ceil(len(categories) / 10)
     if maxpage == 0:
         update.message.reply_html("Hozircha mahsulotlar qo'shilmagan")
         return state_user_main
-    if maxpage > 1:
-        products = Product.objects.filter(quantity__gte=1)[:10]
     context.user_data['page'] = 1
     xabar = f"{context.user_data['page']}-sahifa\n" \
-            f"Mahsulotlardan birini tanlang"
-    update.message.reply_html(xabar, reply_markup=product_all_button(context.user_data['page']))
+            f"Categoriyalardan birini tanlang"
+    update.message.reply_html(xabar, reply_markup=category_all_button(context.user_data['page']))
+
     return state_user_main
 
 
@@ -86,7 +85,6 @@ def command_user_savatcha(update, context):
 
 def command_user_orderhistory(update, context):
     profile = Profile.objects.get(user_id=update.effective_user.id)
-    savatcha = Savatcha.objects.filter(profile=profile, status='done')
     update.message.reply_html("Order history", reply_markup=ReplyKeyboardRemove())
     update.message.reply_html("Qaysi muddatdagi savdolar tarixini ko'rmoqchisiz👇👇", reply_markup=muddat_button())
     return state_user_muddat
@@ -219,18 +217,21 @@ def command_info(update, context):
 
 def command_user_product(update, context):
     query = update.callback_query
-    products = Product.objects.filter(quantity__gte=1)
-    context.user_data['maxpage'] = math.ceil(len(products) / 10)
+
     A = query.data
     if A == 'next':
+        category = Category.objects.get(id=context.user_data['category'])
         print(context.user_data)
+        products = Product.objects.filter(quantity__gte=1, category=category)
+        context.user_data['maxpage'] = math.ceil(len(products) / 10)
         page = context.user_data['page']
         if context.user_data['maxpage'] == page:
             context.bot.answer_callback_query(callback_query_id=query.id, text="Siz oxirgi sahifaga yetib keldingiz")
         else:
             context.user_data['page'] += 1
             query.edit_message_text(text=f"{context.user_data['page']}- sahifa\n" + "Mahsulotlardan birini tanlang",
-                                    reply_markup=product_all_button(context.user_data['page']),
+                                    reply_markup=product_all_button(context.user_data['page'],
+                                                                    context.user_data['category']),
                                     parse_mode='HTML')
         return state_user_main
     elif A == 'back':
@@ -242,7 +243,30 @@ def command_user_product(update, context):
             context.user_data['page'] -= 1
             print(context.user_data)
             query.edit_message_text(text=f"{page}- sahifa\n" + "Mahsulotlardan birini tanlang",
-                                    reply_markup=product_all_button(page - 1))
+                                    reply_markup=product_all_button((page - 1), context.user_data['category']))
+
+    elif A == 'nextc':
+        categories = Category.objects.all()
+        context.user_data['maxpage'] = math.ceil(len(categories) / 10)
+        page = context.user_data['page']
+        if context.user_data['maxpage'] == page:
+            context.bot.answer_callback_query(callback_query_id=query.id, text="Siz oxirgi sahifaga yetib keldingiz")
+        else:
+            context.user_data['page'] += 1
+            query.edit_message_text(text=f"{context.user_data['page']}- sahifa\n" + "Sahifalardan birini tanlang",
+                                    reply_markup=category_all_button(context.user_data['page']),
+                                    parse_mode='HTML')
+        return state_user_main
+    elif A == 'backc':
+        page = context.user_data['page']
+        print(context.user_data)
+        if page == 1:
+            context.bot.answer_callback_query(callback_query_id=query.id, text="Siz birinchi sahifaga yetib keldingiz")
+        else:
+            context.user_data['page'] -= 1
+            query.edit_message_text(text=f"{page}- sahifa\n" + "Mahsulotlardan birini tanlang",
+                                    reply_markup=category_all_button(page - 1))
+
         return state_user_main
     elif A == 'cancel':
         query.message.delete()
@@ -334,7 +358,23 @@ def command_user_product(update, context):
             context.bot.answer_callback_query(text="Mahsulot savatchaga muaffaqiyatli qo'shildi",
                                               callback_query_id=query.id, show_alert=True)
             context.user_data['page'] = 1
-            query.edit_message_text(text="Quyidagi mahsulotlardan birini tanlang", reply_markup=product_all_button(1))
+            query.edit_message_text(text="Quyidagi categoriyalardan birini tanlang",
+                                    reply_markup=category_all_button(1))
+        elif data == 'category':
+            id = int(id)
+            context.user_data['category'] = id
+            category = Category.objects.get(id=id)
+            query.message.reply_html("Buyurtma berish uchun quyidagi mahsulotlardan birini tanlang")
+            products = Product.objects.filter(category=category, quantity__gte=1)
+            maxpage = context.user_data['maxpage'] = math.ceil(len(products) / 10)
+            if maxpage == 0:
+                query.message.reply_html("Hozircha mahsulotlar qo'shilmagan")
+                return state_user_main
+            context.user_data['page'] = 1
+            xabar = f"{context.user_data['page']}-sahifa\n" \
+                    f"Mahsulotlardan birini tanlang"
+            query.edit_message_text(text=xabar, reply_markup=product_all_button(context.user_data['page'],
+                                                                                context.user_data['category']))
     return state_user_main
 
 

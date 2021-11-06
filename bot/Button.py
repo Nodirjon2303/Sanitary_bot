@@ -27,17 +27,22 @@ def phone_button():
     return ReplyKeyboardMarkup(button, resize_keyboard=True)
 
 
-def product_all_button(page):
+def product_all_button(page, id):
     button = []
     res = []
-    products = Product.objects.filter(quantity__gte=1)
+    categoty = Category.objects.get(id=id)
+    products = Product.objects.filter(quantity__gte=1, category=categoty)
     if len(products) > page * 10:
-        products = Product.objects.filter(quantity__gte=1)[(page - 1) * 10: page * 10:]
+        print(len(products))
+        product = products[(page - 1) * 10: page * 10:]
     else:
-        products = Product.objects.all()[(page - 1) * 10:]
+        print(len(products))
+        product = products[(page - 1) * 10:]
 
     sanoq = 1
-    for i in products:
+    print(product)
+    for i in product:
+        print(i.name)
         res.append(InlineKeyboardButton(f"{i.name}", callback_data=f"product_{i.id}"))
         if len(res) == 2:
             button.append(res)
@@ -49,6 +54,32 @@ def product_all_button(page):
     res.append(InlineKeyboardButton("⏩⏩", callback_data="next"))
     res.append(InlineKeyboardButton("❌", callback_data="cancel"))
     res.append(InlineKeyboardButton("⏪⏪", callback_data="back"))
+    button.append(res)
+    return InlineKeyboardMarkup(button)
+
+
+def category_all_button(page):
+    button = []
+    res = []
+    categories = Category.objects.all()
+    if len(categories) > page * 10:
+        categories = Category.objects.all()[(page - 1) * 10: page * 10:]
+    else:
+        categories = Category.objects.all()[(page - 1) * 10:]
+
+    sanoq = 1
+    for i in categories:
+        res.append(InlineKeyboardButton(f"{i.name}", callback_data=f"category_{i.id}"))
+        if len(res) == 2:
+            button.append(res)
+            res = []
+        sanoq += 1
+    if len(res) != 0:
+        button.append(res)
+        res = []
+    res.append(InlineKeyboardButton("⏩⏩", callback_data="nextc"))
+    res.append(InlineKeyboardButton("❌", callback_data="cancel"))
+    res.append(InlineKeyboardButton("⏪⏪", callback_data="backc"))
     button.append(res)
     return InlineKeyboardMarkup(button)
 
@@ -87,6 +118,7 @@ def savatcha_button(savatcha):
     button.append([InlineKeyboardButton("❌Bekor qilish", callback_data="cancel")])
     return InlineKeyboardMarkup(button)
 
+
 def muddat_button():
     button = []
     button.append([InlineKeyboardButton('Kunlik', callback_data="day"),
@@ -103,5 +135,3 @@ def director_main_button():
         ["➕Add admin"]
     ]
     return ReplyKeyboardMarkup(button)
-
-

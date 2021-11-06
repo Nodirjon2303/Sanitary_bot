@@ -19,6 +19,14 @@ class Company(models.Model):
     def __str__(self):
         return f"{self.company_name}    {self.director_name}"
 
+class Category(models.Model):
+    name = models.CharField(max_length=125, null=True, blank=True)
+    description = models.CharField(max_length=125, null=True, blank=True)
+    image = models.ImageField(upload_to='image')
+
+    def __str__(self):
+        return self.name
+
 class Profile(models.Model):
     full_name = models.CharField(max_length=125, null=True, blank=True)
     first_name = models.CharField(max_length=123, null=True, blank=True)
@@ -33,6 +41,7 @@ class Profile(models.Model):
         return self.full_name
 
 class Product(models.Model):
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=125, null=True, blank=True)
     image = models.ImageField(upload_to='image')
     quantity = models.IntegerField(null=True, blank=True)
