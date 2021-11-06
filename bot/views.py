@@ -51,7 +51,8 @@ def command_user_addorder(update, context):
     categories = Category.objects.all()
     maxpage = context.user_data['maxpage'] = math.ceil(len(categories) / 10)
     if maxpage == 0:
-        update.message.reply_html("Hozircha mahsulotlar qo'shilmagan")
+        context.bot.answer_callback_query(text="Hozircha mahsulotlar qo'shilmagan", callback_query_id=query.id,
+                                          show_alert=True)
         return state_user_main
     context.user_data['page'] = 1
     xabar = f"{context.user_data['page']}-sahifa\n" \
@@ -368,7 +369,7 @@ def command_user_product(update, context):
             products = Product.objects.filter(category=category, quantity__gte=1)
             maxpage = context.user_data['maxpage'] = math.ceil(len(products) / 10)
             if maxpage == 0:
-                query.message.reply_html("Hozircha mahsulotlar qo'shilmagan")
+                context.bot.answer_callback_query(text="Hozircha mahsulotlar qo'shilmagan", callback_query_id=query.id, show_alert=True)
                 return state_user_main
             context.user_data['page'] = 1
             xabar = f"{context.user_data['page']}-sahifa\n" \
