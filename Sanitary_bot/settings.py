@@ -137,5 +137,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-TOKEN = '2025347660:AAEnBH8o-SqFGKxrAGANMvlXjfMHQfn77fs'
-# TOKEN = '2030913521:AAFV3f3hTNfVuNYTq8xxy-F3uVq3LBov8Qc'
+TOKEN = "YOUR TOKEN HERE"
